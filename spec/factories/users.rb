@@ -4,4 +4,11 @@ FactoryBot.define do
     password "123456"
     password_confirmation "123456"
   end
+  
+  factory :invalid_user do
+    email ""
+    password ""
+    password_confirmation ""
+  end
+
 end
