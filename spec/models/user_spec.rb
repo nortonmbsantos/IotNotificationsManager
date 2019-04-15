@@ -19,6 +19,10 @@ RSpec.describe User, type: :model do
   #   it { expect(user).to_not be_valid  }
   # end
 
-  it {expect(user).to validate_presence_of(:email)}
+    context "Validates presence of User columns" do
+      it {expect(user).to validate_presence_of(:email)}        
+      it {expect(user).to validate_confirmation_of(:password)}        
+    end
+  
 
 end
