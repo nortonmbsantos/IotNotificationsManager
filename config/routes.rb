@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   # devise_for :users
   namespace :api, defaults: {format: :json}, path: '/' do
-    namespace :v1, path: "/" do
+    namespace :v1, path: '/' do
       resources :users, only: [:show]
     end
   end

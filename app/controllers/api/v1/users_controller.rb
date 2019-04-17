@@ -1,10 +1,5 @@
 class Api::V1::UsersController < ApplicationController
   respond_to :json
-  
-  def index
-    render json: {'Users': 'List'}
-  end
-  
 
   def show
     begin
