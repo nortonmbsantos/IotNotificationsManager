@@ -67,4 +67,38 @@ RSpec.describe 'Users API', type: :request do
     
   end
 
+  describe 'PUT /users/:id' do
+    before do
+      headers = {'Accept'=> 'application/vnd.iotnotifiationmanager.v1' }
+      put "/users/#{user_id}", params: {user: user_params}, headers: headers
+    end
+
+    context 'when the resquest is valid' do
+      let(:user_params){{email: 'newemail@email.com'}}
+      it 'returns 200 code' do
+        expect(response).to have_http_status(200)  
+      end
+        
+      it 'returns the updated user json' do
+        user_response = JSON.parse(response.body, symbolize_names: true)
+        expect(user_response[:email]).to eq(user_params[:email])
+      end
+    end
+
+    context 'when the request is invalid' do
+      let(:user_params){{email: 'invalid_email@'}}
+      it 'returns 422 code' do
+        expect(response).to have_http_status(422)  
+      end
+        
+      it 'returns the update error on json' do
+        user_response = JSON.parse(response.body, symbolize_names: true)
+        expect(user_response).to have_key(:errors)           
+      end      
+    end
+    
+    
+  end
+  
+
 end
