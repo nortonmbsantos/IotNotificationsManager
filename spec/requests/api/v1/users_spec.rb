@@ -96,8 +96,23 @@ RSpec.describe 'Users API', type: :request do
         expect(user_response).to have_key(:errors)           
       end      
     end
+  end
+  
+  describe 'DELETE /users/:id' do
+    before do
+      headers = {'Accept'=> 'application/vnd.iotnotifiationmanager.v1' }
+      delete "/users/#{user_id}", params: {}, headers: headers
+    end
+
+    it 'returns 204 code' do
+      expect(response).to have_http_status(204)    
+    end
     
+    it 'removes the user from the database' do
+      expect(User.find_by(id: user_id)).to be_nil
+    end
     
+
   end
   
 
