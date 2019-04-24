@@ -20,10 +20,97 @@ RSpec.describe 'Devices API', type: :request do
         expect(response).to have_http_status(200)  
       end
     end
-      
+  
+    
+    context 'when the device is not returned' do
+        let(:device_id){404}
+        it 'return code 404' do
+        expect(response).to have_http_status(404)  
+      end
+    end
+    
   end
   
 
+  describe 'POST /devices' do
+    before do
+        headers = {'Accept'=> 'application/vnd.iotnotifiationmanager.v1' }
+        post "/devices", params: {device: device_params}, headers: headers
+      end
 
+      context 'when the device is successfully created' do
+        let(:device_params) { FactoryBot.attributes_for(:device) }
+        
+        it 'return the device json' do
+          device_response = JSON.parse(response.body)
+          expect(device_response['name']).to eq(device_params[:name])
+          expect(device_response['description']).to eq(device_params[:description])
+          expect(device_response['address']).to eq(device_params[:address])
+
+        end
+        
+        it 'returns 201 code' do
+          expect(response).to have_http_status(201)  
+        end
+      end
+
+  
+      context 'when the device us not created' do
+        let(:device_params) { FactoryBot.attributes_for(:device, name: '') }
+        
+        it 'returns 422 code' do
+          expect(response).to have_http_status(422)   
+        end
+
+        it 'returns the json errors' do
+          device_response = JSON.parse(response.body)
+          expect(device_response).to have_key('errors')  
+        end
+      end
+    end
+
+    describe 'PUT /devices/id' do
+      before do
+        headers = {'Accept'=> 'application/vnd.iotnotifiationmanager.v1' }
+        put "/devices/#{device_id}", params: {device: device_params}, headers: headers
+      end
+
+      context 'when the device is successfuly updated' do
+        let(:device_params) {{name: 'My water sensor'}} 
+
+        it 'returns code 200' do
+         expect(response).to have_http_status(200)  
+        end
+        
+        it 'returns the updated device json' do
+          device_response = JSON.parse(response.body)
+          expect(device_response['name']).to eq(device_params[:name])  
+        end
+      end
+      
+      context 'when the device is not updated' do
+        let(:device_params){{name: nil}}
+        it 'returns 422 code' do
+          expect(response).to have_http_status(422)    
+        end
+
+        it 'returns json errors key' do
+          device_response = JSON.parse(response.body)
+          expect(device_response).to have_key('errors')  
+        end
+      end  
+    end
+
+    describe 'DELETE /devices/id' do
+      context 'when the device is deleted' do
+        it 'returns 200 code' do
+            # The device cannot be deleted, but can become inactive
+        end
+        
+      end
+      
+    end
+    
+  
 
 end

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json}, path: '/' do
     namespace :v1, path: '/' do
       resources :users, only: [:show, :create, :update, :destroy]
-      resources :devices, only: [:show]
+      resources :devices, only: [:show, :create, :update]
     end
   end
 
