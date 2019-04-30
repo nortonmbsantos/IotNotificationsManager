@@ -27,6 +27,17 @@ class Api::V1::DevicesController < ApplicationController
     end
   end
 
+  def destroy
+    device = Device.find(params[:id])
+    device.visible = false
+    if device.update(device_params)
+      render json: device, status: 200
+    else
+      render json: {errors: device.errors}, status: 422
+    end
+  end
+  
+
   private
   def device_params
     params.require(:device).permit(:name, :description, :status, :address)

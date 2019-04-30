@@ -102,11 +102,22 @@ RSpec.describe 'Devices API', type: :request do
     end
 
     describe 'DELETE /devices/id' do
+      before do
+        headers = {'Accept'=> 'application/vnd.iotnotifiationmanager.v1' }
+        delete "/devices/#{device_id}", params: {device: device_params}, headers: headers
+      end
+
       context 'when the device is deleted' do
+        let(:device_params) { FactoryBot.attributes_for(:device, visible: false) }
+
         it 'returns 200 code' do
-            # The device cannot be deleted, but can become inactive
+          expect(response).to have_http_status(200)  
         end
-        
+
+        it 'it updates the visible attribute to false' do
+          device_response = JSON.parse(response.body)
+          expect(device_response['visible']).to eq(false)  
+        end
       end
       
     end
