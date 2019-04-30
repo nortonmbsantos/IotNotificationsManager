@@ -65,6 +65,4 @@ RSpec.describe 'Notifications API', type: :request do
       end
     end
     
-
-
 end
