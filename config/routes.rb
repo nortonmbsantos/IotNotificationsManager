@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :v1, path: '/' do
       resources :users, only: [:show, :create, :update, :destroy]
       resources :devices, only: [:show, :create, :update]
+      resources :notifications, only: [:show, :create, :update]
     end
   end
 
