@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :create, :update, :destroy]
       resources :devices, only: [:show, :create, :update, :destroy]
       resources :notifications, only: [:show, :create, :update]
+      resources :groups, only: [:show, :create, :update, :destroy]
     end
   end
 

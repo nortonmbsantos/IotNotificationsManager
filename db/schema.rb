@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_15_130312) do
+ActiveRecord::Schema.define(version: 2019_05_22_015825) do
 
   create_table "devices", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 2019_05_15_130312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: true
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.integer "users_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["users_id"], name: "index_groups_on_users_id"
   end
 
   create_table "notifications", force: :cascade do |t|
