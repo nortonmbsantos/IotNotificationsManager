@@ -3,4 +3,7 @@ class Device < ApplicationRecord
     validates_inclusion_of :status, in: [true, false]
     validates_presence_of :description
     validates_presence_of :address
+
+    belongs_to :group
+    
 end

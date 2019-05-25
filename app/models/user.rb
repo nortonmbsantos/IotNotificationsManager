@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-
+  has_many :groups
   validates_uniqueness_of :auth_token
 
   def generate_auth_token!
